@@ -1,0 +1,46 @@
+language: ko
+
+pipeline:
+  # 1. 커스텀 KoNLPy Okt 토크나이저
+  #    Python 파일명.클래스명 형식으로 지정합니다.
+  #    만약 korean_tokenizer.py가 프로젝트 루트에 있다면 아래와 같이 사용 가능합니다.
+  - name: korean_tokenizer.KoNLPyOktTokenizer
+    # dictionary_path: "path/to/your/custom_dictionary.txt" # 사용자 사전이 있다면 경로 지정
+
+  # 2. (선택 사항) RegexFeaturizer: 정규표현식으로 패턴을 찾아 특성으로 추가
+  - name: RegexFeaturizer
+
+  # 3. (선택 사항) LexicalSyntacticFeaturizer: 창문 크기 내에서 단어의 주변 단어, 품사 정보 등을 특성으로 사용
+  #    토크나이저가 품사 정보를 제공한다면 더 유용합니다 (위 예제에서는 data={"pos": tag}로 추가).
+  - name: LexicalSyntacticFeaturizer
+
+  # 4. CountVectorsFeaturizer (단어 기반): n-gram으로 단어 시퀀스 특성 생성
+  - name: CountVectorsFeaturizer
+    analyzer: "word" # 토크나이저가 생성한 토큰(단어) 사용
+    min_ngram: 1
+    max_ngram: 2 # 예: 단일 단어 및 바이그램 사용
+
+  # 5. CountVectorsFeaturizer (문자 기반): 오타나 신조어에 강인함을 더함
+  - name: CountVectorsFeaturizer
+    analyzer: "char_wb" # 단어 경계 내 문자 n-gram
+    min_ngram: 2
+    max_ngram: 5
+
+  # 6. DIETClassifier: 인텐트 분류 및 엔티티 추출 담당
+  - name: DIETClassifier
+    epochs: 100 # 데이터 양에 따라 조절
+    # entity_recognition: True # 엔티티 사용 시
+    # intent_classification: True # 인텐트 사용 시
+    constrain_similarities: true
+
+  # 7. (선택 사항) EntitySynonymMapper: 엔티티 동의어 처리
+  - name: EntitySynonymMapper
+
+  # 8. (선택 사항) ResponseSelector: FAQ나 간단한 답변 선택
+  # - name: ResponseSelector
+  #   epochs: 100
+
+  # 9. (선택 사항) FallbackClassifier: 낮은 신뢰도의 예측 처리
+  - name: FallbackClassifier
+    threshold: 0.5 # 이 임계값 이하의 NLU 예측은 fallback으로 처리
+    ambiguity_threshold: 0.1

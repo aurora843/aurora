@@ -1,0 +1,12 @@
+action_endpoint:
+  url: "http://localhost:5055/webhook"
+
+tracker_store:
+  type: SQL
+  dialect: "mysql+pymysql"  
+  url: "127.0.0.1" 
+  port: 3306
+  db: "rasa_core" 
+  username: "root"
+  password: "1234"
+  session_persistence: false 

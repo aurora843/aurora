@@ -1,0 +1,13 @@
+version: "3.1"
+
+rules:
+
+- rule: fetch rule by category
+  steps:
+    - intent: ask_category_rule
+    - action: action_chatbot
+
+# - rule: Say 'I am a bot' anytime the user challenges
+#   steps:
+#   - intent: bot_challenge
+#   - action: utter_iamabot

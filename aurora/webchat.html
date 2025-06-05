@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Rasa 챗봇</title>
+  <style>
+    #webchat {
+      width: 400px;
+      height: 600px;
+      border: 1px solid #ccc;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <div id="webchat"></div>
+
+  <script>
+    !(function () {
+      const e = document.createElement("script"),
+            t = document.head || document.getElementsByTagName("head")[0];
+      e.src = "https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.1/lib/index.js";
+      e.async = true;
+      e.onload = () => {
+        window.WebChat.default(
+          {
+            initPayload: "/greet",
+            customData: { language: "ko" },
+            socketUrl: "http://localhost:5005",
+            socketPath: "/socket.io/",
+            title: "기숙사 규칙 챗봇",
+            subtitle: "궁금한 걸 물어보세요!",
+            inputTextFieldHint: "메시지를 입력하세요...",
+            embedded: true,
+            showMessageDate: true,
+            storage: "session"
+          },
+          document.getElementById("webchat")
+        );
+
+        // 메시지 추가 시 자동 스크롤
+        const scrollToBottom = () => {
+          const container = document.querySelector("#webchat .webchat__conversation-container");
+          if (container) {
+            container.scrollTop = container.scrollHeight;
+          }
+        };
+
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach(scrollToBottom);
+        });
+
+        // 지연 후 감시 시작 (챗 UI가 로드될 시간 확보)
+        setTimeout(() => {
+          const target = document.querySelector("#webchat .webchat__conversation-container");
+          if (target) {
+            observer.observe(target, {
+              childList: true,
+              subtree: true
+            });
+          }
+        }, 1500); // 1.5초 후에 시작
+      };
+      t.insertBefore(e, t.firstChild);
+    })();
+  </script>
+</body>
+</html>

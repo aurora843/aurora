@@ -1,0 +1,29 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - ask_category_rule
+  - mood_great
+
+actions:
+  - action_chatbot
+responses:
+  utter_greet:
+  - text: "반가워!"
+  - text: "안녕!"
+  
+  utter_happy:
+  - text: "힘내!"
+  
+  utter_goodbye:
+  - text: "잘 가"
+  - text: "내일 봐"
+  - text: "나중에 보자"
+
+
+session_config:
+  session_expiration_time: 0  # 0이면 "새로운 탭/새로고침 시 매번 새 세션"
+  carry_over_slots_to_new_session: false

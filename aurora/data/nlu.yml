@@ -1,0 +1,56 @@
+version: "3.1"
+
+nlu:
+
+- intent: affirm
+  examples: |
+    - Yes
+    - Sure
+    - Absolutely
+    - 네 # 한국어 예시 추가
+    - 맞아요 # 한국어 예시 추가
+    - 그럼요
+- intent: ask_category_rule
+  examples: |
+    - 가능한 규칙 목록 보여줘
+    - 규칙 카테고리 목록 알려줘
+    - 어떤 규칙들이 있는지 보여줘
+    - 전체 규칙 목록 알려줘
+    - 지금 가능한 규칙 카테고리 알려줘
+- intent: ask_contact_detail # 또는 사용자님이 정의한 다른 적절한 인텐트 이름
+  examples: |
+    - 일본담당 번호 알려줘
+    - 일본 담당자 연결해줘
+    - 일본 관련된 건 어디에 물어봐야 해?
+    - 일본담당  # <--- 직접적인 키워드도 추가
+    - 일본 담당  # <--- 띄어쓰기 된 형태도 추가
+    - 국제교류처 일본담당
+    - 국제교류처의 일본담당자
+    # ... 기타 다양한 관련 예시 문장들 ...    
+- intent: greet
+  examples: |
+      - Hi
+      - Hello
+      - Good morning
+      - Hey there
+- intent: goodbye
+  examples: |
+      - Goodbye
+      - Bye
+      - See you later
+- intent: affirm
+  examples: |
+      - Yes
+      - Sure
+      - Absolutely
+- intent: deny
+  examples: |
+      - No
+      - I don't think so
+      - Not really
+
+- intent: ask_csvjson_data
+  examples: |
+    - 기숙사 규칙 알려줘
+    - csvjson 테이블 보여줘
+    - 기숙사 정보 가져와
